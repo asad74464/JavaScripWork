@@ -10,6 +10,7 @@
     <div id="todo-list"></div>
 
     <script>
+      // Model
       let todos = [{    // use of object in JS start with curly baces
         title: 'Get groceries',
         dueDate: '2023-02-22',
@@ -24,29 +25,21 @@
         id: 'id3'
       }];
 
-      render();
+      // Creates a todo
 
-      function addTodo() {
-        const textbox = document.getElementById("todo-title");
-        const title = textbox.value;
-        const datePicker = document.getElementById('date-picker');
-        const dueDate = datePicker.value;
-        const id = new Date().getTime();
+      function createTodo(title, dueDate){
 
+        const id = '' + new Date().getTime(); // adding string to delete work
         todos.push({
           title: title,
           dueDate: dueDate,
           id: id
         });
-
-        render();
       }
 
-      function deleteTodo(event){
-        const deleteButton = event.target;
-        const idToDelet = deleteButton.id;
-
-        todos = todos.filter(function(todo){
+      // Deletes a todo
+      function removeTodo(idToDelet){
+        todos = todos.filter(function(todo){ // method that exclude item from array
           // if the id of this todo matches idToDelete, return false
           // for every thing else, return true
           if(todo.id === idToDelet){
@@ -56,13 +49,32 @@
           return true;
           }
         });
-
-        render();
-
       }
 
+      render();
+
+      // Controller
+      function addTodo() {
+        const textbox = document.getElementById("todo-title");
+        const title = textbox.value;
+        const datePicker = document.getElementById('date-picker');
+        const dueDate = datePicker.value;
+
+        createTodo(title,dueDate);
+        render();
+      }
+
+      function deleteTodo(event){
+        const deleteButton = event.target;
+        const idToDelet = deleteButton.id;
+
+        removeTodo(idToDelet);
+        render();
+      }
+
+      // View
       function render() {
-        // reset list
+        // reset our list
         document.getElementById("todo-list").innerHTML = "";
         todos.forEach(function (todo) {
           const element = document.createElement("div");
